@@ -5,7 +5,7 @@
         <th
           v-for="(table, idx) in tables"
           :key="idx"
-          @click="$emit('sortEmit', table.key)"
+          @click="$emit('sortEmit', allData, table.key)"
         >
           <span>{{ table.name }}</span>
           <!-- <span class="sortinfo" v-if="sort === tableName">
@@ -32,6 +32,7 @@ export default {
   props: {
     tables: Array,
     viewData: Array,
+    allData: Array,
   },
 };
 </script>

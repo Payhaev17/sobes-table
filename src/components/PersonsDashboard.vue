@@ -4,7 +4,8 @@
     <PersonsTable
       :tables="tables"
       :viewData="viewData"
-      @sortEmit="changeSortKey"
+      :allData="allData"
+      @sortEmit="changeSort"
     />
     <Pagination
       :currPage="page"
@@ -18,7 +19,6 @@
 
 <script>
 import PersonsTable from "@/components/PersonsTable.vue";
-import Pagination from "@/components/app/Pagination.vue";
 
 import PaginationMixin from "@/mixins/pagination.mixin.js";
 import SortMixin from "@/mixins/sort.mixin.js";
@@ -27,7 +27,6 @@ export default {
   name: "PersonsDashboard",
   components: {
     PersonsTable,
-    Pagination,
   },
   mixins: [PaginationMixin, SortMixin],
   data: () => ({
