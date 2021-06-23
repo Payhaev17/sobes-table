@@ -1,12 +1,9 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
+
+import person from "@/store/person.js";
 
 export default createStore({
-  state: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
   modules: {
-  }
-})
+    person,
+  },
+});
