@@ -6,14 +6,20 @@ export default {
     allData: [],
   }),
   methods: {
+    changePage(page) {
+      this.page = page;
+    },
     paginationLeft() {
       if (this.page > 1) --this.page;
+    },
+    fastLeft() {
+      this.page = 1;
     },
     paginationRight() {
       if (this.page < this.maxPage) ++this.page;
     },
-    changePage(page) {
-      this.page = page;
+    fastRight() {
+      this.page = this.maxPage;
     },
   },
   computed: {

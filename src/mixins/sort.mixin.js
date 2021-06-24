@@ -1,29 +1,38 @@
 export default {
   data: () => ({
-    up: true, // true - сортировка вверх, false - сортировка вниз
+    sortKey: "id",
+    sortUp: true, // true - сортировка вверх, false - сортировка вниз
   }),
   methods: {
-    changeSort(array, key) {
-      this.up = !this.up;
+    changeSort(array, key, sortBy) {
+      this.sortKey = key;
+      this.sortUp = !this.sortUp;
 
-      if (typeof array[0][key] === "string") {
-        this.sortByAlphabet(array, key);
-      } else {
-        this.sortByNum(array, key);
+      switch (sortBy) {
+        case "number":
+          this.sortByNum(array);
+          break;
+        case "alphabet":
+          this.sortByAlphabet(array);
+          break;
       }
     },
-    sortByNum(array, key) {
-      if (this.up) {
-        array.sort((prev, next) => prev[key] - next[key]);
+    sortByNum(array) {
+      if (this.sortUp) {
+        array.sort((prev, next) => next[this.sortKey] - prev[this.sortKey]);
       } else {
-        array.sort((prev, next) => next[key] - prev[key]);
+        array.sort((prev, next) => prev[this.sortKey] - next[this.sortKey]);
       }
     },
-    sortByAlphabet(array, key) {
-      if (this.up) {
-        array.sort((prev, next) => prev[key].localeCompare(next[key]));
+    sortByAlphabet(array) {
+      if (this.sortUp) {
+        array.sort((prev, next) =>
+          next[this.sortKey].localeCompare(prev[this.sortKey])
+        );
       } else {
-        array.sort((prev, next) => next[key].localeCompare(prev[key]));
+        array.sort((prev, next) =>
+          prev[this.sortKey].localeCompare(next[this.sortKey])
+        );
       }
     },
   },
