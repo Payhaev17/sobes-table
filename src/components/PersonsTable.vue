@@ -19,7 +19,7 @@
       <tr
         v-for="(data, idx) in viewData"
         :key="idx"
-        @click="$emit('selectedEmit', idx)"
+        @click="$emit('selectedEmit', data)"
       >
         <td>{{ data.id }}</td>
         <td>{{ data.firstName }}</td>
@@ -45,6 +45,9 @@ export default {
 </script>
 
 <style scoped>
+table tr {
+  cursor: pointer;
+}
 .sortinfo {
   margin-left: 1em;
 }

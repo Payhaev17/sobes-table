@@ -7,10 +7,8 @@
       </span>
     </div>
     <p>Описание:</p>
-    <p class="personcard__description">
-      {{ person.description }}
-    </p>
-    <div class="personcard__line"></div>
+    <textarea class="personcard__description" :value="person.description">
+    </textarea>
     <div class="personcard__address">
       <p>
         Адрес проживания: <b>{{ person.address.streetAddress }}</b>
@@ -41,7 +39,7 @@ export default {
   margin-top: 2em;
   text-align: left;
   border-radius: 5px;
-  padding: 1em;
+  padding: 0.5em 1em;
   margin-bottom: 1em;
   box-shadow: 0px 3px 5px grey;
 }
@@ -49,9 +47,14 @@ export default {
   font-size: 16px;
   text-align: center !important;
 }
-.personcard__line {
-  width: 100%;
-  height: 1px;
-  background: grey;
+.personcard__description {
+  max-width: 100%;
+  min-width: 100%;
+  height: 50px;
+  padding: 0.5em;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  box-shadow: inset 0px 2px 3px grey;
 }
 </style>

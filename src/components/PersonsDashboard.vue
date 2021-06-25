@@ -1,12 +1,9 @@
 <template>
   <Preloader class="preloader" v-if="loading" />
   <div v-else>
-    <form class="form" @submit.prevent="srchInTable">
-      <input type="text" placeholder="Поиск" v-model="srchInputText" />
-      <a class="btn waves-effect waves-light">
-        <i class="material-icons">search</i>
-      </a>
-    </form>
+    <AppPersonForm :active="addPersonFormActive" @closeEmit="closePersonForm" />
+    <SearchForm @searchEmit="searchInTable" />
+    <AddNewButton @addEmit="openPersonForm" />
     <PersonsTable
       :sortKey="sortKey"
       :sortUp="sortUp"
@@ -25,17 +22,22 @@
       @rightEmit="paginationRight"
       @fastRightEmit="fastRight"
     />
-    <PersonCard
-      v-if="selectedPerson !== false"
-      :person="viewData[selectedPerson]"
-    />
+    <PersonCard v-if="selectedPerson !== false" :person="selectedPerson" />
   </div>
 </template>
 
 <script>
 import PersonsTable from "@/components/PersonsTable.vue";
 import PersonCard from "@/components/PersonCard.vue";
+import AppPersonForm from "@/components/AddNewPerson.vue";
 
+// App
+import Preloader from "@/components/app/Preloader.vue";
+import Pagination from "@/components/app/Pagination.vue";
+import SearchForm from "@/components/app/SearchForm.vue";
+import AddNewButton from "@/components/app/AddNewButton.vue";
+
+// Mixins
 import PaginationMixin from "@/mixins/pagination.mixin.js";
 import SortMixin from "@/mixins/sort.mixin.js";
 
@@ -44,11 +46,17 @@ export default {
   components: {
     PersonsTable,
     PersonCard,
+    AppPersonForm,
+
+    Preloader,
+    Pagination,
+    SearchForm,
+    AddNewButton,
   },
   mixins: [PaginationMixin, SortMixin],
   data: () => ({
-    srchInputText: "",
     selectedPerson: false,
+    addPersonFormActive: false,
     tables: [
       { key: "id", name: "id", sortBy: "number" },
       { key: "firstName", name: "firstName", sortBy: "alphabet" },
@@ -68,9 +76,9 @@ export default {
     this.loading = false;
   },
   methods: {
-    srchInTable() {
+    searchInTable(text) {
       try {
-        const regExp = new RegExp(this.srchInputText, "i");
+        const regExp = new RegExp(text, "i");
 
         this.allData = this.$store.getters.getPersons.filter((person) => {
           for (const key in person) {
@@ -79,12 +87,18 @@ export default {
         });
       } catch (e) {}
     },
-    selectPerson(idx) {
-      if (this.selectedPerson !== idx) {
-        this.selectedPerson = idx;
+    selectPerson(person) {
+      if (JSON.stringify(this.selectedPerson) !== JSON.stringify(person)) {
+        this.selectedPerson = person;
       } else {
         this.selectedPerson = false;
       }
+    },
+    openPersonForm() {
+      this.addPersonFormActive = true;
+    },
+    closePersonForm() {
+      this.addPersonFormActive = false;
     },
   },
 };
@@ -93,18 +107,6 @@ export default {
 <style scoped>
 .preloader {
   margin-top: 1em;
-}
-.form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2em;
-}
-.inputsrch {
-  margin-right: 1em;
-}
-.btn {
-  margin-left: 1em;
 }
 .card {
   margin-top: 2em !important;
