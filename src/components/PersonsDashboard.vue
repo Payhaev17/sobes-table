@@ -74,7 +74,7 @@ export default {
   }),
   async mounted() {
     try {
-      await this.$store.dispatch("findPersons");
+      await this.$store.dispatch("findPersons", 1000);
 
       this.allData = this.$store.getters.getPersons;
       // Sort by id
