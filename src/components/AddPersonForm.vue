@@ -5,14 +5,14 @@
         <i class="material-icons teal-text text-2">close</i>
       </a>
       <div class="mymodal__content__title">Добавить пользователя</div>
-      <form class="col s12">
+      <form class="col s12" @submit.prevent="addPerson">
         <div class="row">
           <div class="input-field col s6">
             <input
               id="first_name"
               type="text"
-              class="validate"
-              v-model="firstName"
+              :class="{ invalid: !validFirstName }"
+              v-model.trim="form.firstName"
             />
             <label for="first_name">FirstName</label>
           </div>
@@ -20,15 +20,20 @@
             <input
               id="last_name"
               type="text"
-              class="validate"
-              v-model="lastName"
+              :class="{ invalid: !validLastName }"
+              v-model.trim="form.lastName"
             />
             <label for="last_name">LastName</label>
           </div>
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <input id="email" type="email" class="validate" v-model="email" />
+            <input
+              id="email"
+              type="email"
+              v-model.trim="form.email"
+              :class="{ invalid: !validEmail }"
+            />
             <label for="email">Email</label>
           </div>
         </div>
@@ -37,15 +42,22 @@
             <input
               id="tel"
               type="tel"
-              class="validate"
-              pattern="2[0-9]{3}-[0-9]{3}"
-              v-model="phone"
+              :class="{ invalid: !validPhone }"
+              placeholder="(XXX)XXX-XXXX"
+              v-model.trim="form.phone"
+              v-maska="'(###)###-####'"
             />
             <label for="tel">Phone</label>
           </div>
         </div>
         <div class="right-align">
-          <a class="waves-effect waves-light btn">Добавить</a>
+          <button
+            type="submit"
+            class="waves-effect waves-light btn"
+            :class="{ disabled: !validAll }"
+          >
+            Добавить
+          </button>
         </div>
       </form>
     </div>
@@ -53,14 +65,56 @@
 </template>
 
 <script>
+import ValidatorMixin from "@/mixins/validator.mixin.js";
+
 export default {
   props: { active: Boolean },
+  mixins: [ValidatorMixin],
   data: () => ({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
+    form: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+    },
   }),
+  methods: {
+    addPerson() {
+      if (this.validAll) {
+        this.$emit("addPersonEmit", { ...this.form });
+
+        this.clearForm();
+      }
+    },
+    clearForm() {
+      this.form.firstName = "";
+      this.form.lastName = "";
+      this.form.email = "";
+      this.form.phone = "";
+    },
+  },
+  computed: {
+    validFirstName() {
+      return this.nameValid(this.form.firstName);
+    },
+    validLastName() {
+      return this.lastNameValid(this.form.lastName);
+    },
+    validEmail() {
+      return this.emailValid(this.form.email);
+    },
+    validPhone() {
+      return this.phoneValid(this.form.phone);
+    },
+    validAll() {
+      return (
+        this.nameValid(this.form.firstName) &&
+        this.lastNameValid(this.form.lastName) &&
+        this.emailValid(this.form.email) &&
+        this.phoneValid(this.form.phone)
+      );
+    },
+  },
 };
 </script>
 
@@ -98,6 +152,7 @@ export default {
 .mymodal__content__title {
   margin-bottom: 1em;
 }
+
 @keyframes scale {
   from {
     transform: scale(0, 0);

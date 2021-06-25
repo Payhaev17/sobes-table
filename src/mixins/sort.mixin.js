@@ -1,7 +1,7 @@
 export default {
   data: () => ({
     sortKey: "id",
-    sortUp: true, // true - сортировка вверх, false - сортировка вниз
+    sortUp: true,
   }),
   methods: {
     changeSort(array, key, sortBy) {

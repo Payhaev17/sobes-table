@@ -1,9 +1,13 @@
 <template>
   <Preloader class="preloader" v-if="loading" />
   <div v-else>
-    <AppPersonForm :active="addPersonFormActive" @closeEmit="closePersonForm" />
+    <AddPersonForm
+      :active="addPersonFormActive"
+      @closeEmit="closePersonForm"
+      @addPersonEmit="addPerson"
+    />
     <SearchForm @searchEmit="searchInTable" />
-    <AddNewButton @addEmit="openPersonForm" />
+    <ButtonAdd @addEmit="openPersonForm" />
     <PersonsTable
       :sortKey="sortKey"
       :sortUp="sortUp"
@@ -27,36 +31,37 @@
 </template>
 
 <script>
+// Components
 import PersonsTable from "@/components/PersonsTable.vue";
 import PersonCard from "@/components/PersonCard.vue";
-import AppPersonForm from "@/components/AddNewPerson.vue";
+import AddPersonForm from "@/components/AddPersonForm.vue";
 
 // App
 import Preloader from "@/components/app/Preloader.vue";
 import Pagination from "@/components/app/Pagination.vue";
 import SearchForm from "@/components/app/SearchForm.vue";
-import AddNewButton from "@/components/app/AddNewButton.vue";
+import ButtonAdd from "@/components/app/ButtonAdd.vue";
 
 // Mixins
 import PaginationMixin from "@/mixins/pagination.mixin.js";
 import SortMixin from "@/mixins/sort.mixin.js";
 
 export default {
-  name: "PersonsDashboard",
   components: {
     PersonsTable,
     PersonCard,
-    AppPersonForm,
+    AddPersonForm,
 
     Preloader,
     Pagination,
     SearchForm,
-    AddNewButton,
+    ButtonAdd,
   },
   mixins: [PaginationMixin, SortMixin],
   data: () => ({
     selectedPerson: false,
     addPersonFormActive: false,
+
     tables: [
       { key: "id", name: "id", sortBy: "number" },
       { key: "firstName", name: "firstName", sortBy: "alphabet" },
@@ -71,7 +76,8 @@ export default {
     await this.$store.dispatch("findPersons");
 
     this.allData = this.$store.getters.getPersons;
-    this.changeSort(this.allData, "id", "number"); // Изначальная сортировка будет по id
+    // Sort by id
+    this.changeSort(this.allData, "id", "number");
 
     this.loading = false;
   },
@@ -85,20 +91,26 @@ export default {
             if (regExp.test(person[key])) return true;
           }
         });
-      } catch (e) {}
+      } catch (e) {
+        return;
+      }
     },
     selectPerson(person) {
-      if (JSON.stringify(this.selectedPerson) !== JSON.stringify(person)) {
-        this.selectedPerson = person;
-      } else {
-        this.selectedPerson = false;
-      }
+      JSON.stringify(this.selectedPerson) !== JSON.stringify(person)
+        ? (this.selectedPerson = person)
+        : (this.selectedPerson = false);
     },
     openPersonForm() {
       this.addPersonFormActive = true;
     },
     closePersonForm() {
       this.addPersonFormActive = false;
+    },
+    addPerson(person) {
+      person.id = Math.floor(Math.random() * 999);
+      person.address = "Empty";
+
+      this.allData.unshift(person);
     },
   },
 };

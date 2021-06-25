@@ -13,7 +13,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope>
 body {
   width: 900px;
   margin: 0 auto !important;

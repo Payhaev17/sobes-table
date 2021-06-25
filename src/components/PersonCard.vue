@@ -1,5 +1,5 @@
 <template>
-  <div class="personcard">
+  <div class="personcard scale-transition">
     <div class="personcard__title">
       <span>
         Выбран пользователь
@@ -7,20 +7,23 @@
       </span>
     </div>
     <p>Описание:</p>
-    <textarea class="personcard__description" :value="person.description">
+    <textarea
+      class="personcard__description"
+      :value="person.description || 'Empty'"
+    >
     </textarea>
     <div class="personcard__address">
       <p>
-        Адрес проживания: <b>{{ person.address.streetAddress }}</b>
+        Адрес проживания: <b>{{ person.address.streetAddress || "Empty" }}</b>
       </p>
       <p>
-        Город: <b>{{ person.address.city }}</b>
+        Город: <b>{{ person.address.city || "Empty" }}</b>
       </p>
       <p>
-        Провинция/штат: <b>{{ person.address.state }}</b>
+        Провинция/штат: <b>{{ person.address.state || "Empty" }}</b>
       </p>
       <p>
-        Индекс: <b>{{ person.address.zip }}</b>
+        Индекс: <b>{{ person.address.zip || "Empty" }}</b>
       </p>
     </div>
   </div>
