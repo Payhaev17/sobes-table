@@ -73,13 +73,17 @@ export default {
     loading: true,
   }),
   async mounted() {
-    await this.$store.dispatch("findPersons");
+    try {
+      await this.$store.dispatch("findPersons");
 
-    this.allData = this.$store.getters.getPersons;
-    // Sort by id
-    this.changeSort(this.allData, "id", "number");
+      this.allData = this.$store.getters.getPersons;
+      // Sort by id
+      this.changeSort(this.allData, "id", "number");
 
-    this.loading = false;
+      this.loading = false;
+    } catch (e) {
+      console.warn("Ошибка загрузки данных");
+    }
   },
   methods: {
     searchInTable(text) {
