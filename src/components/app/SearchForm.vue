@@ -1,7 +1,10 @@
 <template>
-  <form class="form" @submit.prevent="$emit('searchEmit', searchInputText)">
+  <form class="form">
     <input type="text" placeholder="Поиск" v-model="searchInputText" />
-    <a class="btn waves-effect waves-light">
+    <a
+      class="btn waves-effect waves-light"
+      @click.prevent="$emit('searchEmit', searchInputText)"
+    >
       <i class="material-icons">search</i>
     </a>
   </form>
@@ -12,6 +15,11 @@ export default {
   data: () => ({
     searchInputText: "",
   }),
+  watch: {
+    searchInputText() {
+      this.$emit("changedTextEmit", this.searchInputText);
+    },
+  },
 };
 </script>
 

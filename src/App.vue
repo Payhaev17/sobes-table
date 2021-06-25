@@ -1,14 +1,25 @@
 <template>
-  <PersonsDashboard />
+  <SelectRows v-if="rowsQuantity === false" @selectEmit="changeRowsQuantity" />
+  <PersonsDashboard v-else :rowsQuantity="rowsQuantity" />
 </template>
 
 <script>
+import SelectRows from "@/components/app/SelectRows.vue";
 import PersonsDashboard from "@/components/PersonsDashboard.vue";
 
 export default {
   name: "App",
   components: {
+    SelectRows,
     PersonsDashboard,
+  },
+  data: () => ({
+    rowsQuantity: false,
+  }),
+  methods: {
+    changeRowsQuantity(quantity) {
+      this.rowsQuantity = quantity;
+    },
   },
 };
 </script>

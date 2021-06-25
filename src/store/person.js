@@ -14,6 +14,9 @@ export default {
     updatePersons(state, persons) {
       state.persons = persons;
     },
+    addPerson(state, person) {
+      state.persons.unshift(person);
+    },
   },
   state: {
     persons: [],

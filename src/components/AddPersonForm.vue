@@ -146,6 +146,8 @@ export default {
   position: absolute;
   top: 0;
   right: 0;
+  margin-top: 1em;
+  margin-right: 1em;
   cursor: pointer;
   text-decoration: none;
 }

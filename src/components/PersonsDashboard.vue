@@ -6,7 +6,7 @@
       @closeEmit="closePersonForm"
       @addPersonEmit="addPerson"
     />
-    <SearchForm @searchEmit="searchInTable" />
+    <SearchForm @searchEmit="searchInTable" @changedTextEmit="searchInTable" />
     <ButtonAdd @addEmit="openPersonForm" />
     <PersonsTable
       :sortKey="sortKey"
@@ -58,6 +58,9 @@ export default {
     ButtonAdd,
   },
   mixins: [PaginationMixin, SortMixin],
+  props: {
+    rowsQuantity: Number,
+  },
   data: () => ({
     selectedPerson: false,
     addPersonFormActive: false,
@@ -74,7 +77,7 @@ export default {
   }),
   async mounted() {
     try {
-      await this.$store.dispatch("findPersons", 1000);
+      await this.$store.dispatch("findPersons", this.rowsQuantity);
 
       this.allData = this.$store.getters.getPersons;
       // Sort by id
@@ -95,9 +98,7 @@ export default {
             if (regExp.test(person[key])) return true;
           }
         });
-      } catch (e) {
-        return;
-      }
+      } catch (e) {}
     },
     selectPerson(person) {
       JSON.stringify(this.selectedPerson) !== JSON.stringify(person)
@@ -114,7 +115,9 @@ export default {
       person.id = Math.floor(Math.random() * 999);
       person.address = "Empty";
 
-      this.allData.unshift(person);
+      this.$store.commit("addPerson", person);
+
+      this.allData = this.$store.getters.getPersons;
     },
   },
 };
