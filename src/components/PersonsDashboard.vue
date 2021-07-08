@@ -90,15 +90,11 @@ export default {
   },
   methods: {
     searchInTable(text) {
-      try {
-        const regExp = new RegExp(text, "i");
-
-        this.allData = this.$store.getters.getPersons.filter((person) => {
-          for (const key in person) {
-            if (regExp.test(person[key])) return true;
-          }
-        });
-      } catch (e) {}
+      this.allData = this.$store.getters.getPersons.filter((person) => {
+        for (const key in person) {
+          if (person[key].includes(text)) return true;
+        }
+      });
     },
     selectPerson(person) {
       JSON.stringify(this.selectedPerson) !== JSON.stringify(person)
