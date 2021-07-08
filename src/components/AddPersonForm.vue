@@ -1,10 +1,10 @@
 <template>
   <div class="mymodal" :class="{ mymodal_active: active }">
     <div class="mymodal__content">
-      <a class="mymodal__closebtn" @click="$emit('closeEmit')">
+      <a class="mymodal__close-button" @click="$emit('closeEmit')">
         <i class="material-icons teal-text text-2">close</i>
       </a>
-      <div class="mymodal__content__title">Добавить пользователя</div>
+      <div class="mymodal__title">Добавить пользователя</div>
       <form class="col s12" @submit.prevent="addPerson">
         <div class="row">
           <div class="input-field col s6">
@@ -142,7 +142,7 @@ export default {
   border-radius: 5px;
   position: relative;
 }
-.mymodal__closebtn {
+.mymodal__close-button {
   position: absolute;
   top: 0;
   right: 0;
@@ -151,7 +151,7 @@ export default {
   cursor: pointer;
   text-decoration: none;
 }
-.mymodal__content__title {
+.mymodal__title {
   margin-bottom: 1em;
 }
 

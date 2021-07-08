@@ -25,13 +25,8 @@ export default {
 </script>
 
 <style scope>
-body {
-  width: 900px;
-  margin: 0 auto !important;
-}
-
 #app {
-  width: 100%;
+  width: 900px;
   margin: 0 auto;
   text-align: center;
 }
