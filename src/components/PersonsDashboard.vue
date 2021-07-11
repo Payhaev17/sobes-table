@@ -92,7 +92,9 @@ export default {
     searchInTable(text) {
       this.allData = this.$store.getters.getPersons.filter((person) => {
         for (const key in person) {
-          if (person[key].includes(text)) return true;
+          if (typeof person[key] === "string") {
+            if (person[key].includes(text)) return true;
+          }
         }
       });
     },
