@@ -1,8 +1,8 @@
 import { createApp } from "vue";
+import Maska from "maska";
+
 import App from "./App.vue";
 import store from "./store";
-
-import Maska from "maska";
 
 import "materialize-css/dist/css/materialize.min.css";
 import "material-design-icons/iconfont/material-icons.css";

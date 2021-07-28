@@ -1,6 +1,6 @@
 <template>
-  <div class="personcard scale-transition">
-    <div class="personcard__title">
+  <div class="person-card scale-transition">
+    <div class="person-card__title">
       <span>
         Выбран пользователь
         <b>{{ person.firstName + " " + person.lastName }}</b>
@@ -12,7 +12,7 @@
       :value="person.description || 'Empty'"
     >
     </textarea>
-    <div class="personcard__address">
+    <div class="person-card__address">
       <p>
         Адрес проживания: <b>{{ person.address.streetAddress || "Empty" }}</b>
       </p>
@@ -38,7 +38,7 @@ export default {
 </script>
 
 <style scoped>
-.personcard {
+.person-card {
   margin-top: 2em;
   text-align: left;
   border-radius: 5px;
@@ -46,11 +46,11 @@ export default {
   margin-bottom: 1em;
   box-shadow: 0px 3px 5px grey;
 }
-.personcard__title {
+.person-card__title {
   font-size: 16px;
   text-align: center !important;
 }
-.personcard__description {
+.person-card__description {
   max-width: 100%;
   min-width: 100%;
   height: 50px;
